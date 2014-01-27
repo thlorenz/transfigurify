@@ -1,7 +1,10 @@
 'use strict';
 
+var si = setImmediate || function (fn) { setTimeout(fn, 0); }
+
 var findParent = require('find-parent-dir')
-  , path = require('path');
+  , path = require('path')
+  , requireModule = require('require-module');
 
 var resolvedTxs = {};
 
@@ -26,7 +29,7 @@ function resolveTransforms(file, env, cb) {
   var txs = resolvedTxs[file];
 
   // assuming that env will never change during the lifetime of this module
-  if (txs !== undefined) return cb(null, txs);
+  if (txs !== undefined) return si(cb.bind(null, null, txs));
 
   findParent(file, 'package.json', function (err, dir) {
     if (err) return cb(err);
@@ -35,8 +38,14 @@ function resolveTransforms(file, env, cb) {
     var packfile = path.join(dir, 'package.json');
 
     txs = transforms(packfile, env);
-    resolvedTxs[file] = txs;
+    if (txs) { 
+      txs = txs.map(function (tx) { 
+        var root = path.dirname(file);
+        return requireModule(tx, root)(file);
+      })
+    }
 
+    resolvedTxs[file] = txs;
     cb(null, txs);
   });
 };
