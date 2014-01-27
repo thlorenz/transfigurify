@@ -1,9 +1,12 @@
 'use strict';
 
-var findParent = require('find-parent-dir')
-  , path = require('path');
+var si = setImmediate || function (fn) { setTimeout(fn, 0); }
 
-var resolvedTxs = {};
+var findParent = require('find-parent-dir')
+  , path = require('path')
+  , requireModule = require('require-module');
+
+var resolved_txfns = {};
 
 function transforms(packfile, env) {
   var  pack = require(packfile);
@@ -13,8 +16,10 @@ function transforms(packfile, env) {
 exports = module.exports = 
 
 /**
- * Attempts to resolve transforms that have been transfigured for the given environment inside the package.json
+ * Attempts to resolve transform functions that have been transfigured for the given environment inside the package.json
  * of the package that the file is part of.
+ *
+ * These have to be invoked with the `file` in order to get the actual transform.
  * 
  * @name resolveTransforms
  * @function
@@ -23,10 +28,10 @@ exports = module.exports =
  * @param {function} cb called back with error or transforms (null if none were transfigured given the conditions).
  */
 function resolveTransforms(file, env, cb) {
-  var txs = resolvedTxs[file];
+  var txfns = resolved_txfns[file];
 
   // assuming that env will never change during the lifetime of this module
-  if (txs !== undefined) return cb(null, txs);
+  if (txfns !== undefined) return si(cb.bind(null, null, txfns));
 
   findParent(file, 'package.json', function (err, dir) {
     if (err) return cb(err);
@@ -34,12 +39,18 @@ function resolveTransforms(file, env, cb) {
 
     var packfile = path.join(dir, 'package.json');
 
-    txs = transforms(packfile, env);
-    resolvedTxs[file] = txs;
+    txfns = transforms(packfile, env);
+    if (txfns) { 
+      txfns = txfns.map(function (tx) { 
+        var root = path.dirname(file);
+        return requireModule(tx, root);
+      })
+    }
 
-    cb(null, txs);
+    resolved_txfns[file] = txfns;
+    cb(null, txfns);
   });
 };
 
 // used for testing
-exports.clearCache = function () { resolvedTxs = {} }
+exports.clearCache = function () { resolved_txfns = {} }
