@@ -1,0 +1,21 @@
+{
+  "name": "dev-test",
+  "version": "0.0.0",
+  "description": "Fixture demonstrating two different transform options when running in test environment.",
+  "main": "main.js",
+  "browserify": {
+    "transform": [
+      "exposify",
+      "transfigurify"
+    ]
+  },
+  "transfigurify": {
+    "test": [
+      "brfs"
+    ]
+  },
+  "dependencies": {
+    "brfs": "0.0.9",
+    "exposify": "~0.1.3"
+  }
+}
