@@ -1,6 +1,6 @@
 {
   "name": "transfigurify",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Transform that figures out which transform(s) to apply from a package.json configuration and an environment variable.",
   "main": "index.js",
   "scripts": {
