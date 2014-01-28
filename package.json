@@ -1,6 +1,6 @@
 {
   "name": "transfigurify",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Configure which transforms get applied to your package via an environment variable.",
   "main": "index.js",
   "scripts": {
