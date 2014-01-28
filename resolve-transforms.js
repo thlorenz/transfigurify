@@ -1,6 +1,6 @@
 'use strict';
 
-var si = setImmediate || function (fn) { setTimeout(fn, 0); }
+var si = (typeof setImmediate !== 'undefined') ? setImmediate : function (fn) { setTimeout(fn, 0); }
 
 var findParent = require('find-parent-dir')
   , path = require('path')
