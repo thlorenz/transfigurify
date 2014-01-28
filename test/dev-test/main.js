@@ -1,3 +1,4 @@
 'use strict';
 
-var x = require('x');
+var x = require('./main.hbs');
+module.exports = x();

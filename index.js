@@ -7,6 +7,20 @@ var resolve        = require('./resolve-transforms')
 
 exports = module.exports = 
 
+/**
+ * browserify transform which applies a set of browserify transforms that are configured inside `package.json`.
+ * Multiple sets can be configured and a matching one selected depending on the `TRANSFIGURIFY_ENV` environment variable.
+ *
+ * This variable can also be set directly via `transfigurify.env='x'`.
+ *
+ * If no matching configuration is found or the environment variable wasn't set a through stream is returned which
+ * means that the file will not be transformed by transfigurify.
+ *
+ * @name transfigurify
+ * @function
+ * @param {string} file file whose content is to be transformed
+ * @return {TransformStream} transform that is composed of the transforms that were configured for the environment (if any) 
+ */
 function (file) {
   var env = exports.env;
 
@@ -48,20 +62,16 @@ function (file) {
  *
  * ### Example
  *
- *  ```js
- *  // setting from javascript
- *  transfigurify.env = 'test';
- *  ```
+ * ```js
+ * // setting from javascript
+ * transfigurify.env = 'test';
+ * ```
  *
- *  ```sh
- *  # setting from command line
- *  TRANSFIGURIFY_ENV=test browserify -t transfigurify ...
- *  ```
+ * ```sh
+ * # setting from command line
+ * TRANSFIGURIFY_ENV=test browserify -t transfigurify ...
+ * ```
  * 
  * @name transfigurify::env
- * 
  */
 exports.env = process.env.TRANSFIGURIFY_ENV;
-
-// used for testing
-exports.clearCache = resolve.clearCache; 

@@ -23,6 +23,7 @@ exports = module.exports =
  * 
  * @name resolveTransforms
  * @function
+ * @private
  * @param {string} file full path to the file
  * @param {string} env  the given transfigurify environment
  * @param {function} cb called back with error or transforms (null if none were transfigured given the conditions).

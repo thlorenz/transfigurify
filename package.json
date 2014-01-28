@@ -1,10 +1,11 @@
 {
   "name": "transfigurify",
   "version": "0.0.1",
-  "description": "Transform that figures out which transform(s) to apply from a package.json configuration and an environment variable.",
+  "description": "Configure which transforms get applied to your package via an environment variable.",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*.js",
+    "demo": "(cd example && echo '\n+++ normal bundle +++\n' && sh ./build.sh && echo '\n+++ test bundle +++\n' && sh ./build-test.sh)"
   },
   "repository": {
     "type": "git",
@@ -21,8 +22,10 @@
   "devDependencies": {
     "tap": "~0.4.3",
     "browserify": "~3.24.1",
-    "exposify": "~0.1.3",
-    "brfs": "0.0.9"
+    "brfs": "0.0.9",
+    "handlebars": "~1.3.0",
+    "hbsfy": "~1.3.1",
+    "cardinal": "~0.4.4"
   },
   "keywords": [],
   "author": {
