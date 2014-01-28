@@ -1,7 +1,7 @@
 {
   "name": "transfigurify",
   "version": "0.1.1",
-  "description": "Configure which transforms get applied to your package via an environment variable.",
+  "description": "Configure which browserify transforms get applied to your package via an environment variable.",
   "main": "index.js",
   "scripts": {
     "test": "tap test/*.js",

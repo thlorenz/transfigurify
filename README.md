@@ -1,6 +1,6 @@
 # transfigurify [![build status](https://secure.travis-ci.org/thlorenz/transfigurify.png)](http://travis-ci.org/thlorenz/transfigurify)
 
-Configure which transforms get applied to your package via an environment variable.
+Configure which [browserify](https://github.com/substack/node-browserify) transforms get applied to your package via an environment variable.
 
 #### package.json
 
